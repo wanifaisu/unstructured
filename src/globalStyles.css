@@ -1,0 +1,8 @@
+body::-webkit-scrollbar {
+    display: none;
+    overflow: hidden !important;
+    
+  }
+  body {
+    overflow: hidden;
+  }

@@ -1,0 +1,385 @@
+/* Responsive Styles */
+
+@media (max-width: 1200px) {
+  .logout {
+    display: none;
+  }
+
+  .bottom-nav {
+    /* display: none; */
+  }
+
+  .content-box {
+    width: 100%;
+  }
+
+  .credit-card-ly,
+  .account-card-ly,
+  .acc-info {
+    width: 100%;
+  }
+
+  .row .unifi-input-group {
+    width: 100%;
+  }
+
+  .alert-notice-light {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-menu .logout {
+    display: none;
+  }
+
+  .mobile-viewmenu-icon-toggle {
+    display: block;
+    cursor: pointer;
+  }
+
+  .mobile-viewmenu-icon-toggle img {
+    width: 30px;
+  }
+
+  /* Bottom Navigation */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    padding: 20px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .mb-nav-item a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .mb-nav-item .item-icn img {
+    width: 30px;
+  }
+
+  .mb-nav-item.active {
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+
+  .dashboard {
+    flex-direction: column;
+    
+  }
+
+  .logout {
+    display: none;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 1rem;
+  
+  }
+  .content-box {
+    width: 100%;
+  }
+
+  .box-default,
+  .box-default-1,
+  .box-default-support {
+    width: 100%;
+  }
+
+  .box-containers {
+    flex-wrap: wrap;
+  }
+
+  .accounts,
+  .new-offers {
+    width: 100%;
+  }
+
+  .row .unifi-input-group {
+    width: 100%;
+  }
+
+  .acc-info,
+  .acc-info-no-bg,
+  .alert-notice,
+  .submit-dispute {
+    padding: 20px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-menu {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .row,
+  .grid-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .acc-info,
+  .acc-info-no-bg,
+  .alert-notice,
+  .submit-dispute {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .credit-card-ly .row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .content-box h1 {
+    font-size: 30px;
+  }
+
+  .row .unifi-input-group {
+    width: 100%;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .table-container {
+    overflow-x: auto; /* Enables scrolling within the table container */
+    display: block; /* Ensures it behaves as a block */
+    white-space: nowrap; /* Keeps table content in one line */
+  }
+
+  table {
+    min-width: 600px; /* Prevents columns from stacking */
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar .logo img {
+    width: 300px;
+  }
+
+  .box-default,
+  .box-default-1,
+  .box-default-support {
+    padding: 15px;
+  }
+
+  .content-box h1 {
+    font-size: 24px;
+  }
+
+  .sidebar {
+    padding: 10px;
+  }
+
+  .sidebar-menu ul li {
+    padding: 5px;
+  }
+
+  .acc-info,
+  .acc-info-no-bg,
+  .alert-notice,
+  .submit-dispute {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .submit-dispute button {
+    width: 100%;
+  }
+
+  .progress-container {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .progress-text {
+    font-size: 16px;
+  }
+
+  .progress-step {
+    font-size: 12px;
+  }
+}
+.upper_container{
+  margin-top: 10rem !important;
+}
+
+/* Sidebar Styles */
+.sidebar_new {
+  position: fixed;
+  top: 0;
+  right: -100%;  /* Initially hidden */
+  width: 250px;
+  height: 100%;
+  background: white;
+  padding: 20px;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease-in-out;
+  z-index: 1001;
+}
+
+.sidebar_new.open {
+  right: 0; /* Show the sidebar */
+}
+
+.sidebar_new ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar_new ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar_new ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #2a2a2a;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  margin-top: 20px;
+}
+
+.sidebar-footer a {
+  display: block;
+  text-decoration: none;
+  color: #0077b6;
+  margin-top: 5px;
+}
+
+/* Overlay to close sidebar when clicking outside */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+.full-screen-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin-top: 4rem;
+  background: white;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-logo {
+  height: 40px;
+}
+
+.menu-close {
+  cursor: pointer;
+}
+
+.menu-close img {
+  width: 24px;
+  height: 24px;
+}
+
+.menu-content {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80vh; 
+  padding: 20px; 
+}
+
+.menu-content h3 {
+  font-size: 16px;
+  color: teal;
+  margin-bottom: 10px;
+}
+
+.menu-content ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-content ul li {
+  margin-bottom: 15px;
+}
+
+.menu-content ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+}
