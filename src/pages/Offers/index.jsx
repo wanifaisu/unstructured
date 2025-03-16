@@ -3,15 +3,12 @@ import { useSelector } from 'react-redux';
 import '../../components/Header/header.css';
 import '../../components/Header/header_new.css';
 export default function Offers() {
-  const userData = useSelector((state) => state?.auth?.userData);
-  console.log(userData,"userData")
+  const userData = useSelector((state) => state?.UserDetails?.userProfileDetails);
   return (
     <div className="content">
       <div className="content-box">
-        <h1>Welcome {userData?.username?.slice(0,10)??`{{User name}}`}</h1>
-        <p className="text-align-left">
-          Let’s resolve your past-due accounts together
-        </p>
+        <h1>Welcome {userData?.contactName ?? `{{User name}}`}</h1>
+        <p className="text-align-left">Let’s resolve your past-due accounts together</p>
 
         <div className="box-containers">
           <div className="accounts">

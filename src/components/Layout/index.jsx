@@ -1,61 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import DashboardId from '../../assets/imgs/dashboard-id.svg';
 import DashboardActivemobile from '../../assets/imgs/dashboardActivemobileV.svg';
-import DisputeIc from "../../assets/imgs/dispute-ic.svg";
+import DisputeIc from '../../assets/imgs/dispute-ic.svg';
 import PaymentHistory from '../../assets/imgs/payment-history.svg';
 import Support from '../../assets/imgs/Support.svg';
 import User, { default as Profile } from '../../assets/imgs/user.svg';
 import Header from '../Header';
 export default function Layout({ children }) {
   const location = useLocation();
-  const [activePath, setActivePath] = useState("");
+  const navigate = useNavigate();
+  const [activePath, setActivePath] = useState('');
   useEffect(() => {
     setActivePath(location.pathname);
   }, [location]);
+  const handleNavigate = (row) => {
+    if (row === 'Offers') {
+      navigate('/');
+    } else if (row === 'disputes') {
+      navigate('/disputes');
+    } else if (row === 'payment_history') {
+      navigate('/payment_history');
+    } else if (row === 'support') {
+      navigate('/support');
+    } else if (row === 'profile') {
+      navigate('/profile');
+    }
+  };
   return (
     <div>
-      <Header  children=  {children}/>
-     
-     
+      <Header children={children} />
+
       <div className="dashboard">
         <div className="sidebar">
           <div className="sidebar-menu">
             <ul>
-              <li  className={activePath === "/" ? "active" : ""}>
-                <a  href="/">
+              <li className={activePath === '/' ? 'active' : ''}>
+                <a onClick={() => handleNavigate('Offers')}>
                   <div class="item-icn">
                     <img src={DashboardActivemobile} alt="" />
                   </div>
                   Offers
                 </a>
               </li>
-              <li className={activePath === "/disputes" ? "active" : ""}>
-                <a href="/disputes">
+              <li className={activePath === '/disputes' ? 'active' : ''}>
+                <a onClick={() => handleNavigate('disputes')}>
                   <div className="item-icn">
                     <img src={DisputeIc} alt="" />
                   </div>{' '}
                   Disputes
                 </a>
               </li>
-              <li className={activePath === "/payment_history" ? "active" : ""}>
-                <a href="/payment_history">
+              <li className={activePath === '/payment_history' ? 'active' : ''}>
+                <a onClick={() => handleNavigate('payment_history')}>
                   <div className="item-icn">
                     <img src={PaymentHistory} alt="" />
                   </div>{' '}
                   Payment History
                 </a>
               </li>
-              <li className={activePath === "/profile" ? "active" : ""}>
-                <a href="/profile">
+              <li className={activePath === '/profile' ? 'active' : ''}>
+                <a onClick={() => handleNavigate('profile')}>
                   <div className="item-icn">
                     <img src={Profile} alt="" />
                   </div>{' '}
                   Profile
                 </a>
               </li>
-              <li className={activePath === "/support" ? "active" : ""}>
-                <a href="/support">
+              <li className={activePath === '/support' ? 'active' : ''}>
+                <a onClick={() => handleNavigate('support')}>
                   <div className="item-icn">
                     <img src={Support} alt="" />
                   </div>{' '}
@@ -83,36 +96,46 @@ export default function Layout({ children }) {
       </div>
       <div className="bottom-nav">
         <div className="mb-nav-item">
-            <a href="/disputes">
-                <div className="item-icn"><img src={DashboardId} alt=""/></div>
-                <span>Disputes</span>
-            </a>
+          <a onClick={() => handleNavigate('disputes')}>
+            <div className="item-icn">
+              <img src={DashboardId} alt="" />
+            </div>
+            <span>Disputes</span>
+          </a>
         </div>
         <div class="mb-nav-item">
-            <a href="/payment_history">
-                <div className="item-icn"><img src={PaymentHistory} alt=""/></div>
-                <span>Payments</span>
-            </a>
+          <a onClick={() => handleNavigate('payment_history')}>
+            <div className="item-icn">
+              <img src={PaymentHistory} alt="" />
+            </div>
+            <span>Payments</span>
+          </a>
         </div>
         <div className="mb-nav-item active">
-            <a href="/">
-                <div className="item-icn"><img src={DashboardActivemobile} alt=""/></div>
-                <span>Offers</span>
-            </a>
+          <a onClick={() => handleNavigate('Offers')}>
+            <div className="item-icn">
+              <img src={DashboardActivemobile} alt="" />
+            </div>
+            <span>Offers</span>
+          </a>
         </div>
         <div className="mb-nav-item">
-            <a href="/support">
-                <div className="item-icn"><img src={Support} alt=""/></div>
-                <span>Support</span>
-            </a>
+          <a onClick={() => handleNavigate('support')}>
+            <div className="item-icn">
+              <img src={Support} alt="" />
+            </div>
+            <span>Support</span>
+          </a>
         </div>
         <div className="mb-nav-item">
-            <a href="/profile">
-                <div className="item-icn"><img src={User} alt=""/></div>
-                <span>Profile</span>
-            </a>
+          <a onClick={() => handleNavigate('profile')}>
+            <div className="item-icn">
+              <img src={User} alt="" />
+            </div>
+            <span>Profile</span>
+          </a>
         </div>
-    </div>
+      </div>
     </div>
   );
 }

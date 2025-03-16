@@ -1,9 +1,9 @@
 import React from 'react';
-import "../../components/Header/header.css";
-import "../../components/Header/header_new.css";
+import '../../components/Header/header.css';
+import '../../components/Header/header_new.css';
 export default function Support() {
   return (
-    <div class="content " >
+    <div class="content ">
       <div class="content-box">
         <div class="box-containers">
           <div class="col">

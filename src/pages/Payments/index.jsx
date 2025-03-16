@@ -1,9 +1,9 @@
 import React from 'react';
-import "../../components/Header/header.css";
-import "../../components/Header/header_new.css";
+import '../../components/Header/header.css';
+import '../../components/Header/header_new.css';
 export default function Payment() {
   return (
-    <div className="content"  >
+    <div className="content">
       <div className="content-box">
         <h3>Accounts</h3>
 
