@@ -7,7 +7,10 @@ import { login } from './Redux/slices/authSlice';
 import { setLoading } from './Redux/slices/loadingSlice';
 import Loader from './components/Loading';
 import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { updateUserDetails } from './Redux/slices/userSlice';
+import OfferAccept from './pages/OfferAccept';
 
 // Lazy Load Pages
 const Disputes = React.lazy(() => import('./pages/Disputes'));
@@ -20,6 +23,7 @@ const Support = React.lazy(() => import('./pages/Support'));
 
 function App() {
   const isAuth = useSelector((state) => state.auth.isAuth);
+
   const userData = useSelector((state) => state?.auth?.userData);
   const dispatch = useDispatch();
 
@@ -33,15 +37,15 @@ function App() {
   }, [dispatch]);
   const getUserDetailsData = () => {
     axios
-      .get(`http://localhost:3000/api/user_details?contact_id=${userData?.contact_id}`, {
+      .get(`${import.meta.env.VITE_BASE_URL}/user_details/${userData?.contact_id}`, {
         headers: {
           Authorization: `Bearer ${userData?.token}`,
         },
         withCredentials: true,
       })
       .then((response) => {
-        if (response?.data?.status) {
-          dispatch(updateUserDetails(response?.data.user));
+        if (response?.data?.success) {
+          dispatch(updateUserDetails(response?.data.data));
           dispatch(setLoading(false));
         }
       })
@@ -61,6 +65,7 @@ function App() {
           <>
             <Route path="/login" element={<Navigate to="/" replace />} />
             <Route path="/" element={<Layout />}>
+              <Route path="accept_offer" element={<OfferAccept />} />
               <Route index element={<Offers />} />
               <Route path="disputes" element={<Disputes />} />
               <Route path="payment_history" element={<Payment />} />
@@ -77,6 +82,14 @@ function App() {
           </>
         )}
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </Suspense>
   );
 }

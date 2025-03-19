@@ -8,8 +8,8 @@ import '../../components/Header/header.css';
 import { login } from '../../Redux/slices/authSlice';
 import './unified.css';
 import { setLoading } from '../../Redux/slices/loadingSlice';
+import { toast } from 'react-toastify';
 export default function Login() {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showSSN, setShowSSN] = useState(false);
@@ -35,17 +35,20 @@ export default function Login() {
       fourDigitSSN: formData?.ssn,
     };
     axios
-      .post('http://localhost:3000/api/auth', data, {
+      .post(`${import.meta.env.VITE_BASE_URL}/login`, data, {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true, // If using cookies
       })
       .then((response) => {
         if (response?.data?.status) {
+          toast.success('User Login Successfully');
           dispatch(login(response?.data));
           navigate('/');
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        toast.error('Error Occured while login user');
+        dispatch(setLoading(false));
+      });
   };
 
   return (

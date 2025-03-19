@@ -1,9 +1,38 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../components/Header/header.css';
 import '../../components/Header/header_new.css';
+import { useNavigate } from 'react-router-dom';
+import { setLoading } from '../../Redux/slices/loadingSlice';
+import axios from 'axios';
 export default function Offers() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state?.UserDetails?.userProfileDetails);
+  const [accountDetails, setAccountDetails] = useState([]);
+  console.log(userData?.contact_id, 'userData');
+  const getUserDetailsData = () => {
+    dispatch(setLoading(true));
+    axios
+      .get(`http://localhost:3000/api/user_account/accounts/${userData?.contact_id}`, {
+        headers: {
+          Authorization: `Bearer ${userData?.token}`,
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response?.data?.success) {
+          setAccountDetails(response?.data?.data);
+          dispatch(setLoading(false));
+        }
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+      });
+  };
+  useEffect(() => {
+    getUserDetailsData();
+  }, [userData?.contact_id]);
   return (
     <div className="content">
       <div className="content-box">
@@ -13,7 +42,7 @@ export default function Offers() {
         <div className="box-containers">
           <div className="accounts">
             <p>Accounts</p>
-            <h2>2</h2>
+            <h2>{accountDetails?.length ?? '0'}</h2>
           </div>
 
           <div className="new-offers">
@@ -23,47 +52,43 @@ export default function Offers() {
         </div>
 
         <div className="box-containers">
-          <div className="credit-card-ly">
-            <div className="row">
-              <h3>ABC Bank</h3>
-              <div className="status gold">Offer Available</div>
-            </div>
+          {accountDetails?.map((item, index) => {
+            console.log(item, 'teyie');
+            return (
+              <div className="credit-card-ly">
+                <div className="row">
+                  <h3>{item?.bank_name}</h3>
+                  {item?.length > 1 ? (
+                    <div className="status gold">Offer Available</div>
+                  ) : (
+                    <div className="status default-status">No Offer yet</div>
+                  )}
+                </div>
 
-            <div className="acc">
-              <h4>Account #1233</h4>
-              <p>Current Past Due; $1,000.00</p>
-            </div>
+                <div className="acc">
+                  <h4>Account {item?.issuer_account_id}</h4>
+                  <p>Current Past Due; ${item?.balance}</p>
+                </div>
 
-            <div className="acc">
-              <h4>Pay $500.00 to settle in full</h4>
-              <p>Offer valid until March 15, 2025</p>
-            </div>
+                <div className="acc">
+                  <h4>Pay $500.00 to settle in full</h4>
+                  <p>Offer valid until March 15, 2025</p>
+                </div>
 
-            <div className="row">
-              <button className="btn-1">
-                <a href="acceptoffer.html">Accept Offer</a>
-              </button>
-              <button className="btn-2">More Options</button>
-            </div>
-          </div>
-
-          <div className="credit-card-ly">
-            <div className="row">
-              <h3>ABC Bank</h3>
-              <div className="status default-status">No Offer yet</div>
-            </div>
-
-            <div className="acc">
-              <h4>Account #1233</h4>
-              <p>Current Past Due; $1,000.00</p>
-            </div>
-
-            <div className="empty-card-align"></div>
-
-            <div className="row">
-              <button className="btn-2">Request Payment Plan</button>
-            </div>
-          </div>
+                <div className="row">
+                  <button className="btn-1">
+                    <a href="acceptoffer.html">Accept Offer</a>
+                  </button>
+                  <button
+                    onClick={() => navigate('/accept_offer', { state: item })}
+                    className="btn-2"
+                  >
+                    More Options
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
