@@ -64,7 +64,7 @@ export default function Header({ children }) {
     <div>
       <div className="navbar">
         <div className="logo">
-          <a href="dashboard.html">
+          <a onClick={() => handleNavigate('Offers')}>
             <img src={DashboardId} alt="Structured Settlement" />
           </a>
         </div>

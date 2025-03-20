@@ -23,6 +23,7 @@ input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  min-width: 290px;
   font-size: 14px;
   outline: none;
 }
@@ -40,7 +41,39 @@ input:focus {
   font-size: 12px;
   margin-top: 3px;
 }
+/* popover */
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
 
+.popover {
+  position: absolute;
+  top: 105%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  white-space: nowrap;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.popover::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(0, 0, 0, 0.75) transparent;
+}
 /* Responsive for Mobile */
 @media (max-width: 600px) {
   .form-grid {

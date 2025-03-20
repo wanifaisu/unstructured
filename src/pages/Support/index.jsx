@@ -1,7 +1,25 @@
 import React from 'react';
 import '../../components/Header/header.css';
+import Wallet from '../../assets/imgs/wallet.svg';
+import MyOffers from '../../assets/imgs/myOffers.svg';
+import Dispute from '../../assets/imgs/dispute.svg';
+import Email from '../../assets/imgs/email.svg';
+import Call from '../../assets/imgs/call.svg';
+import Chat from '../../assets/imgs/chat.svg';
 import '../../components/Header/header_new.css';
+
+import { useNavigate } from 'react-router-dom';
 export default function Support() {
+  const navigate = useNavigate();
+  const handleNavigate = (row) => {
+    if (row === 'Offers') {
+      navigate('/');
+    } else if (row === 'disputes') {
+      navigate('/disputes');
+    } else if (row === 'payment_history') {
+      navigate('/payment_history');
+    }
+  };
   return (
     <div class="content ">
       <div class="content-box">
@@ -11,9 +29,8 @@ export default function Support() {
               <div class="col align-center">
                 <h2>How Can We Help?</h2>
                 <p class="text-align-center">
-                  We’re here to support you with your debt management journey.
-                  Choose from our various support options below or our
-                  self-service tools.
+                  We’re here to support you with your debt management journey. Choose from our
+                  various support options below or our self-service tools.
                 </p>
               </div>
 
@@ -29,7 +46,7 @@ export default function Support() {
               <div class="row">
                 <div class="box-default-support unifi-outline">
                   <div class="support-icon">
-                    <img src="../media/imgs/chat.svg" alt="" />
+                    <img src={Chat} alt="" />
                   </div>
                   <h2>Live Chat</h2>
                   <p>Get instant help from our support team</p>
@@ -39,7 +56,7 @@ export default function Support() {
 
                 <div class="box-default-support unifi-outline">
                   <div class="support-icon">
-                    <img src="../media/imgs/call.svg" alt="" />
+                    <img src={Call} alt="" />
                   </div>
                   <h2>Call us</h2>
                   <p>Speak with a representative</p>
@@ -48,7 +65,7 @@ export default function Support() {
 
                 <div class="box-default-support unifi-outline">
                   <div class="support-icon">
-                    <img src="../media/imgs/email.svg" alt="" />
+                    <img src={Email} alt="" />
                   </div>
                   <h2>Email Us</h2>
                   <p>We’ll respond within 24 hours</p>
@@ -62,9 +79,9 @@ export default function Support() {
 
               <div class="row">
                 <div class="box-default-support unifi-outline">
-                  <a href="paymenthistory.html">
+                  <a onClick={() => handleNavigate('payment_history')}>
                     <div class="support-icon">
-                      <img src="../media/imgs/wallet.svg" alt="" />
+                      <img src={Wallet} alt="" />
                     </div>
 
                     <p>My Account</p>
@@ -72,9 +89,9 @@ export default function Support() {
                 </div>
 
                 <div class="box-default-support unifi-outline">
-                  <a href="dashboard.html">
+                  <a onClick={() => handleNavigate('Offers')}>
                     <div class="support-icon">
-                      <img src="../media/imgs/myOffers.svg" alt="" />
+                      <img src={MyOffers} alt="" />
                     </div>
 
                     <p>My Offers</p>
@@ -82,9 +99,9 @@ export default function Support() {
                 </div>
 
                 <div class="box-default-support unifi-outline">
-                  <a href="dispute.html">
+                  <a onClick={() => handleNavigate('disputes')}>
                     <div class="support-icon">
-                      <img src="../media/imgs/dispute.svg" alt="" />
+                      <img src={Dispute} alt="" />
                     </div>
 
                     <p>Dispute Debt</p>

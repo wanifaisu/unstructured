@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import '../../components/Header/header.css';
 import '../../components/Header/header_new.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import './profile.css';
-import { decryptSSN, formatPhoneNumber, unformatPhoneNumber } from '../../helper';
+import { formatPhoneNumber, unformatPhoneNumber } from '../../helper';
 import CustomInput from '../../components/CustomInput';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { setLoading } from '../../Redux/slices/loadingSlice';
 
 export default function Profile() {
+  const dispatch = useDispatch();
   const userProfile = useSelector((state) => state?.UserDetails?.userProfileDetails);
+
   const userData = useSelector((state) => state?.auth?.userData);
   // State to store user details
   const [userDetails, setUserDetails] = useState({
@@ -23,6 +26,7 @@ export default function Profile() {
     city: '',
     state: '',
     postalCode: '',
+    hashedFour: '',
     country: '',
   });
 
@@ -35,6 +39,7 @@ export default function Profile() {
       setUserDetails((prev) => ({
         ...prev,
         ...userProfile,
+        hashedFour: userProfile?.hashedFour && '****',
         dateOfBirth: userProfile.dateOfBirth
           ? moment(userProfile.dateOfBirth).format('MM-DD-YYYY')
           : '',
@@ -75,29 +80,39 @@ export default function Profile() {
     if (!userDetails?.phone?.trim()) {
       newErrors.phone = 'Phone number is required';
     }
-    if (!userDetails?.dateOfBirth?.trim()) {
-      newErrors.dateOfBirth = 'Date of birth is required';
-    }
 
     setErrors(newErrors);
-    console.log('Validation Errors:', newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(userDetails, 'userDetails');
+
     userDetails.phone = unformatPhoneNumber(userDetails.phone);
+
+    const userPayload = {
+      firstName: userDetails?.firstName,
+      lastName: userDetails?.lastName,
+      email: userDetails?.email,
+      phone: userDetails?.phone,
+      address1: userDetails?.address1,
+      contact_id: userDetails?.contact_id,
+      hashedFour: userDetails?.hashedFour,
+      city: userDetails?.city,
+      state: userDetails?.state,
+      postalCode: userDetails?.postalCode,
+      country: userDetails?.country,
+    };
     const isValid = validate();
-    console.log(isValid, 'userDetails');
     if (isValid) {
-      console.log(isValid, 'isValid');
       dispatch(setLoading(true));
 
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_BASE_URL}/update_userDetails`,
-          userDetails,
+          userPayload,
           {
             headers: {
               Authorization: `Bearer ${userData?.token}`,
@@ -106,6 +121,7 @@ export default function Profile() {
           }
         );
         if (response?.data?.status) {
+          getUserDetailsData();
           toast.success('User updated Successfully');
         } else {
           toast.error('Error occurred while updating user');
@@ -119,6 +135,25 @@ export default function Profile() {
       console.log('Form has errors.');
     }
   };
+  const getUserDetailsData = () => {
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/user_details/${userData?.contact_id}`, {
+        headers: {
+          Authorization: `Bearer ${userData?.token}`,
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response?.data?.success) {
+          dispatch(updateUserDetails(response?.data.data));
+          dispatch(setLoading(false));
+        }
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+      });
+  };
+
   return (
     <div className="content">
       <div className="content-box">
@@ -174,21 +209,22 @@ export default function Profile() {
                     />
                     <CustomInput
                       label="Last 4 Digits"
-                      name="ssn"
+                      name="hashedFour"
                       value={userDetails?.hashedFour}
                       onChange={handleChange}
+                      onlyFourDigits={true}
                       placeholder="****1234"
                       required
                       error={errors.ssn}
                     />
                     <CustomInput
                       label="Street Address"
-                      name="streadAdress"
-                      value={userDetails?.streadAdress}
+                      name="address1"
+                      value={userDetails?.address1}
                       onChange={handleChange}
                       placeholder="123 Main Street"
                       required
-                      error={errors?.streadAdress}
+                      error={errors?.address1}
                     />
                     <CustomInput
                       label="City"
@@ -210,12 +246,12 @@ export default function Profile() {
                     />
                     <CustomInput
                       label="Zip Code"
-                      name="zipcode"
-                      value={userDetails?.zipcode}
+                      name="postalCode"
+                      value={userDetails?.postalCode}
                       onChange={handleChange}
                       placeholder="10001"
                       required
-                      error={errors?.zipcode}
+                      error={errors?.postalCode}
                     />
                     <CustomInput
                       label="Country"
