@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Dopdownarrw from '../../assets/imgs/dropdown-arrw.svg';
 import Calander from '../../assets/imgs/calendar.svg';
 import Paynow from '../../assets/imgs/paynow.svg';
 import CreditCards from '../../assets/imgs/creditcards.png';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 // import Dopdownarrw from '../../assets/imgs/creditcards.png';
 
 export default function OfferAccept() {
   const location = useLocation();
+  const userProfile = useSelector((state) => state?.UserDetails?.userAccountDetailsArr);
+  const [showAll, setShowAll] = useState(false);
   return (
     <div>
       <div className="content">
@@ -48,28 +51,38 @@ export default function OfferAccept() {
 
               <div className="acc-info col">
                 <h3>Your Settlement Offer</h3>
+                {userProfile?.offers &&
+                  userProfile?.offers
+                    .slice(0, showAll ? userProfile.offers.length : 1) // Show only first row initially
+                    .map((item, index) => (
+                      <div key={index} className="row">
+                        <div className="box-default unifi-outline">
+                          <p className="text-align-center">Original Amount</p>
+                          <h2>#{item?.total_debt_amount}</h2>
+                        </div>
 
-                <div className="row">
-                  <div className="box-default unifi-outline">
-                    <p className="text-align-center">Original Amount</p>
-                    <h2>$5,280.00</h2>
-                  </div>
+                        <div className="box-default gold">
+                          <p className="text-align-center">Settlement Offer</p>
+                          <h2>${item?.settlement_amount}</h2>
+                          <span>Save {item?.settlement_percentage}%</span>
+                        </div>
 
-                  <div className="box-default gold">
-                    <p className="text-align-center">Settlement Offer</p>
-                    <h2>$2,640.00</h2>
-                    <span>Save 50%</span>
-                  </div>
+                        <div className="box-default unifi-outline">
+                          <p className="text-align-center">Offer Expires on</p>
+                          <h2>Feb. 22, 2025</h2>
+                        </div>
+                      </div>
+                    ))}
 
-                  <div className="box-default unifi-outline">
-                    <p className="text-align-center">Offer Expires on</p>
-                    <h2>Feb. 22, 2025</h2>
-                  </div>
-                </div>
-
-                <button className="btn-2" style={{ width: '210px', marginTop: '20px' }}>
-                  More Options
-                </button>
+                {!showAll && (
+                  <button
+                    className="btn-2"
+                    style={{ width: '210px', marginTop: '20px' }}
+                    onClick={() => setShowAll(true)}
+                  >
+                    Show More
+                  </button>
+                )}
               </div>
 
               <div className="acc-info col">

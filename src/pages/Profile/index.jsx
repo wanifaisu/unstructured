@@ -15,7 +15,6 @@ export default function Profile() {
   const userProfile = useSelector((state) => state?.UserDetails?.userProfileDetails);
 
   const userData = useSelector((state) => state?.auth?.userData);
-  // State to store user details
   const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastName: '',
@@ -29,11 +28,7 @@ export default function Profile() {
     hashedFour: '',
     country: '',
   });
-
-  // Validation errors state
   const [errors, setErrors] = useState({});
-
-  // Populate state when userProfile is available
   useEffect(() => {
     if (userProfile) {
       setUserDetails((prev) => ({
@@ -46,8 +41,6 @@ export default function Profile() {
       }));
     }
   }, [userProfile]);
-
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserDetails((prev) => ({
@@ -55,8 +48,6 @@ export default function Profile() {
 
       [name]: value,
     }));
-
-    // Remove error on change
     setErrors((prev) => ({
       ...prev,
       [name]: '',

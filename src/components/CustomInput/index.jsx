@@ -15,11 +15,11 @@ const CustomInput = ({
   const [showPopover, setShowPopover] = useState(false);
 
   const handleInput = (e) => {
-    let inputValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    let inputValue = e.target.value.replace(/\D/g, '');
     if (inputValue.length > 4) {
-      inputValue = inputValue.slice(0, 4); // Restrict to 4 digits
-      setShowPopover(true); // Show popover if input exceeds 4 digits
-      setTimeout(() => setShowPopover(false), 2000); // Hide popover after 2 sec
+      inputValue = inputValue.slice(0, 4);
+      setShowPopover(true);
+      setTimeout(() => setShowPopover(false), 2000);
     } else {
       setShowPopover(false);
     }

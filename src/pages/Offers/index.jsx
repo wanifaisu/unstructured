@@ -3,38 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import '../../components/Header/header.css';
 import '../../components/Header/header_new.css';
 import { useNavigate } from 'react-router-dom';
-import { setLoading } from '../../Redux/slices/loadingSlice';
-import axios from 'axios';
-import { addUserAccountDetails } from '../../Redux/slices/userSlice';
 export default function Offers() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const userData = useSelector((state) => state?.UserDetails?.userProfileDetails);
-  const [accountDetails, setAccountDetails] = useState([]);
-  const getUserDetailsData = () => {
-    dispatch(setLoading(true));
-    axios
-      .get(`http://localhost:3000/api/user_account/accounts/${userData?.contact_id}`, {
-        headers: {
-          Authorization: `Bearer ${userData?.token}`,
-        },
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response?.data?.success) {
-          setAccountDetails(response?.data?.data);
-          dispatch(setLoading(false));
-          dispatch(addUserAccountDetails(response?.data?.data));
-        }
-      })
-      .catch((error) => {
-        dispatch(setLoading(false));
-      });
-  };
-  console.log(accountDetails?.offers, '-----------------');
-  useEffect(() => {
-    getUserDetailsData();
-  }, [userData?.contact_id]);
+  const accountDetails = useSelector((state) => state?.UserDetails?.userAccountDetailsArr);
+
   return (
     <div className="content">
       <div className="content-box">
@@ -56,7 +29,6 @@ export default function Offers() {
         <div className="box-containers">
           {accountDetails?.accounts && accountDetails?.accounts?.length > 0 ? (
             accountDetails?.accounts?.map((item, index) => {
-              console.log(item, 'teyie');
               return (
                 <div className="credit-card-ly">
                   <div className="row">
@@ -74,7 +46,13 @@ export default function Offers() {
                   </div>
 
                   <div className="acc">
-                    <h4>Pay $500.00 to settle in full</h4>
+                    <h4>
+                      Pay $
+                      {accountDetails?.offers?.length > 0
+                        ? accountDetails?.offers[index]?.total_debt_amount
+                        : '0'}{' '}
+                      to settle in full
+                    </h4>
                     <p>Offer valid until March 15, 2025</p>
                   </div>
 

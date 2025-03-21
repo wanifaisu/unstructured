@@ -9,7 +9,7 @@ import Loader from './components/Loading';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { updateUserDetails } from './Redux/slices/userSlice';
+import { addUserAccountDetails, updateUserDetails } from './Redux/slices/userSlice';
 import OfferAccept from './pages/OfferAccept';
 
 // Lazy Load Pages
@@ -54,6 +54,28 @@ function App() {
       });
   };
 
+  const getUserAccountsData = () => {
+    dispatch(setLoading(true));
+    axios
+      .get(`http://localhost:3000/api/user_account/accounts/${userData?.contact_id}`, {
+        headers: {
+          Authorization: `Bearer ${userData?.token}`,
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response?.data?.success) {
+          dispatch(setLoading(false));
+          dispatch(addUserAccountDetails(response?.data?.data));
+        }
+      })
+      .catch((error) => {
+        dispatch(setLoading(false));
+      });
+  };
+  useEffect(() => {
+    getUserAccountsData();
+  }, [userData?.contact_id]);
   useEffect(() => {
     getUserDetailsData();
   }, [userData?.token]);
